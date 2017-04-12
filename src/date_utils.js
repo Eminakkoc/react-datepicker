@@ -70,8 +70,19 @@ export function parseDate (value, { dateFormat, locale }) {
   return m.isValid() ? m : null
 }
 
-export function safeDateFormat (date, { dateFormat, locale }) {
-  return date && date.clone()
-    .locale(locale || moment.locale())
-    .format(Array.isArray(dateFormat) ? dateFormat[0] : dateFormat) || ''
+export function safeDateFormat (date, { dateFormat, locale, multi, selectedList }) {
+
+  const selectedDateText = date && date.clone()
+      .locale(locale || moment.locale())
+      .format(Array.isArray(dateFormat) ? dateFormat[0] : dateFormat) || ''
+  if (multi) {
+
+    if (selectedList.length > 1) {
+      return selectedList.length + " items selected."
+    } else {
+      return selectedDateText
+    }
+  } else {
+    return selectedDateText
+  }
 }

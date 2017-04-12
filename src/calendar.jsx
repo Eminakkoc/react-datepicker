@@ -43,6 +43,9 @@ var Calendar = React.createClass({
     forceShowMonthNavigation: React.PropTypes.bool,
     onDropdownFocus: React.PropTypes.func,
     onSelect: React.PropTypes.func.isRequired,
+    multi: React.PropTypes.bool,
+    onMultiSelect: React.PropTypes.func,
+    selectedList: React.PropTypes.array,
     openToDate: React.PropTypes.object,
     peekNextMonth: React.PropTypes.bool,
     scrollableYearDropdown: React.PropTypes.bool,
@@ -303,7 +306,10 @@ var Calendar = React.createClass({
                 startDate={this.props.startDate}
                 endDate={this.props.endDate}
                 peekNextMonth={this.props.peekNextMonth}
-                utcOffset={this.props.utcOffset}/>
+                utcOffset={this.props.utcOffset}
+                multi={this.props.multi}
+                onMultiSelect={this.props.onMultiSelect}
+                selectedList={this.props.selectedList}/>
           </div>
       )
     }

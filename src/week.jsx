@@ -25,7 +25,10 @@ var Week = React.createClass({
     selectsStart: React.PropTypes.bool,
     showWeekNumber: React.PropTypes.bool,
     startDate: React.PropTypes.object,
-    utcOffset: React.PropTypes.number
+    utcOffset: React.PropTypes.number,
+    multi: React.PropTypes.bool,
+    onMultiSelect: React.PropTypes.func,
+    selectedList: React.PropTypes.array,
   },
 
   handleDayClick (day, event) {
@@ -69,7 +72,10 @@ var Week = React.createClass({
             selectsEnd={this.props.selectsEnd}
             startDate={this.props.startDate}
             endDate={this.props.endDate}
-            utcOffset={this.props.utcOffset}/>
+            utcOffset={this.props.utcOffset}
+            multi={this.props.multi}
+            onMultiSelect={this.props.onMultiSelect}
+            selectedList={this.props.selectedList}/>
       )
     }))
   },

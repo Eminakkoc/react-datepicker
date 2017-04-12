@@ -28,6 +28,9 @@ var DatePicker = React.createClass({
       React.PropTypes.array
     ]),
     dateFormatCalendar: React.PropTypes.string,
+    multi: React.PropTypes.bool,
+    onMultiSelect: React.PropTypes.func,
+    selectedList: React.PropTypes.array,
     disabled: React.PropTypes.bool,
     disabledKeyboardNavigation: React.PropTypes.bool,
     dropdownMode: React.PropTypes.oneOf(['scroll', 'select']).isRequired,
@@ -207,7 +210,7 @@ var DatePicker = React.createClass({
       }
     )
     this.setSelected(date, event)
-    this.setOpen(false)
+    // this.setOpen(false)
   },
 
   setSelected (date, event, keepInput) {
@@ -217,7 +220,7 @@ var DatePicker = React.createClass({
       return
     }
 
-    if (!isSameDay(this.props.selected, changedDate)) {
+    if (this.props.multi ? true :!isSameDay(this.props.selected, changedDate)) {
       if (changedDate !== null) {
         if (this.props.selected) {
           changedDate = moment(changedDate).set({
@@ -231,6 +234,10 @@ var DatePicker = React.createClass({
         })
       }
       this.props.onChange(changedDate, event)
+    }
+
+    if (this.props.multi) {
+      this.props.onMultiSelect(changedDate)
     }
 
     this.props.onSelect(changedDate, event)
@@ -328,6 +335,9 @@ var DatePicker = React.createClass({
         dateFormat={this.props.dateFormatCalendar}
         dropdownMode={this.props.dropdownMode}
         selected={this.props.selected}
+        multi={this.props.multi}
+        onMultiSelect={this.props.onMultiSelect}
+        selectedList={this.props.selectedList}
         preSelection={this.state.preSelection}
         onSelect={this.handleSelect}
         openToDate={this.props.openToDate}
@@ -366,7 +376,7 @@ var DatePicker = React.createClass({
       [outsideClickIgnoreClass]: this.state.open
     })
 
-    const customInput = this.props.customInput || <input type="text" />
+    const customInput = this.props.customInput || <input type="text"/>
     const inputValue =
       typeof this.props.value === 'string' ? this.props.value
         : typeof this.state.inputValue === 'string' ? this.state.inputValue

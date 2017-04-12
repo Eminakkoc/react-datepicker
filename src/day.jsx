@@ -20,7 +20,10 @@ var Day = React.createClass({
     selectsEnd: React.PropTypes.bool,
     selectsStart: React.PropTypes.bool,
     startDate: React.PropTypes.object,
-    utcOffset: React.PropTypes.number
+    utcOffset: React.PropTypes.number,
+    multi: React.PropTypes.bool,
+    onMultiSelect: React.PropTypes.func,
+    selectedList: React.PropTypes.array,
   },
   getDefaultProps () {
     return {
@@ -41,6 +44,16 @@ var Day = React.createClass({
 
   isSameDay (other) {
     return isSameDay(this.props.day, other)
+  },
+
+  isPresentInSelectedList (otherList) {
+    
+    var clickedDate = this.props.day;
+    var filteredList = otherList.filter(function (selectedDay) {
+      return selectedDay.isSame(clickedDate, "day")
+    })
+
+    return filteredList.length > 0
   },
 
   isKeyboardSelected () {
@@ -131,10 +144,18 @@ var Day = React.createClass({
       this.props.month !== this.props.day.month()
   },
 
+  getSelectedFlag () {
+    if (this.props.multi) {
+      return this.isPresentInSelectedList(this.props.selectedList)
+    } else {
+      return this.isSameDay(this.props.selected)
+    }
+  },
+
   getClassNames () {
     return classnames('react-datepicker__day', {
       'react-datepicker__day--disabled': this.isDisabled(),
-      'react-datepicker__day--selected': this.isSameDay(this.props.selected),
+      'react-datepicker__day--selected': this.getSelectedFlag(), //TODO
       'react-datepicker__day--keyboard-selected': this.isKeyboardSelected(),
       'react-datepicker__day--highlighted': this.isHighlighted(),
       'react-datepicker__day--range-start': this.isRangeStart(),

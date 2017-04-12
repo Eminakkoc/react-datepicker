@@ -7,13 +7,29 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      startDate: moment()
+      startDate: moment(),
+      multiStartDate: [moment(), moment().add(2, 'days')]
     }
   },
 
   handleChange (date) {
-    this.setState({
+   this.setState({
       startDate: date
+    })
+  },
+
+  handleMultiSelect (date) {
+
+    let updatedArray = this.state.multiStartDate.filter((formerlySelectedElement) => {
+      return !formerlySelectedElement.isSame(date, "day")
+    })
+
+    if (updatedArray.length === this.state.multiStartDate.length) {
+      updatedArray.push(date)
+    }
+
+    this.setState({
+      multiStartDate: updatedArray
     })
   },
 
@@ -28,8 +44,12 @@ export default React.createClass({
       </pre>
       <div className="column">
         <DatePicker
+            multi
             selected={this.state.startDate}
-            onChange={this.handleChange} />
+            selectedList={this.state.multiStartDate}
+            onChange={this.handleChange}
+            onMultiSelect={this.handleMultiSelect}
+        />
       </div>
     </div>
   }
