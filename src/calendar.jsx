@@ -58,7 +58,9 @@ var Calendar = React.createClass({
     showYearDropdown: React.PropTypes.bool,
     startDate: React.PropTypes.object,
     todayButton: React.PropTypes.string,
-    utcOffset: React.PropTypes.number
+    utcOffset: React.PropTypes.number,
+    closeButton: React.PropTypes.string,
+    setOpen: React.PropTypes.func
   },
 
   defaultProps: {
@@ -265,6 +267,19 @@ var Calendar = React.createClass({
     )
   },
 
+  renderCloseButton () {
+    if (!this.props.closeButton) {
+      return
+    }
+    return (
+      <div className="react-datepicker__close-button-container">
+        <div className="react-datepicker__close-button" onClick={(event) => this.props.setOpen(false)}>
+          {this.props.closeButton}
+        </div>
+      </div>
+    )
+  },
+
   renderMonths () {
     var monthList = []
     for (var i = 0; i < this.props.monthsShown; ++i) {
@@ -324,6 +339,7 @@ var Calendar = React.createClass({
         {this.renderNextMonthButton()}
         {this.renderMonths()}
         {this.renderTodayButton()}
+        {this.renderCloseButton()}
         {this.props.children}
       </div>
     )

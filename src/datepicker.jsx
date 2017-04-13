@@ -80,7 +80,9 @@ var DatePicker = React.createClass({
     utcOffset: React.PropTypes.number,
     value: React.PropTypes.string,
     withPortal: React.PropTypes.bool,
-    setInputOpenState: React.PropTypes.func
+    setInputOpenState: React.PropTypes.func,
+    closeButton: React.PropTypes.string,
+    setOpen: React.PropTypes.func
   },
 
   getDefaultProps () {
@@ -146,7 +148,10 @@ var DatePicker = React.createClass({
   },
 
   setOpen (open) {
-    this.props.setInputOpenState(open)
+
+    if (this.props.setInputOpenState) {
+      this.props.setInputOpenState(open)
+    }
 
     this.setState({
       open: open,
@@ -341,6 +346,7 @@ var DatePicker = React.createClass({
         multi={this.props.multi}
         onMultiSelect={this.props.onMultiSelect}
         selectedList={this.props.selectedList}
+        closeButton={this.props.closeButton}
         preSelection={this.state.preSelection}
         onSelect={this.handleSelect}
         openToDate={this.props.openToDate}
@@ -369,7 +375,9 @@ var DatePicker = React.createClass({
         monthsShown={this.props.monthsShown}
         onDropdownFocus={this.handleDropdownFocus}
         onMonthChange={this.props.onMonthChange}
-        className={this.props.calendarClassName}>
+        className={this.props.calendarClassName}
+        setOpen={this.setOpen}
+      >
       {this.props.children}
     </WrappedCalendar>
   },
