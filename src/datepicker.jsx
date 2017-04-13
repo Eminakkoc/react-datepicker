@@ -79,7 +79,8 @@ var DatePicker = React.createClass({
     todayButton: React.PropTypes.string,
     utcOffset: React.PropTypes.number,
     value: React.PropTypes.string,
-    withPortal: React.PropTypes.bool
+    withPortal: React.PropTypes.bool,
+    setInputOpenState: React.PropTypes.func
   },
 
   getDefaultProps () {
@@ -145,6 +146,8 @@ var DatePicker = React.createClass({
   },
 
   setOpen (open) {
+    this.props.setInputOpenState(open)
+
     this.setState({
       open: open,
       preSelection: open && this.state.open ? this.state.preSelection : this.getInitialState().preSelection
