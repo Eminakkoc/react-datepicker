@@ -128,7 +128,13 @@ var TetherComponent = React.createClass({
     const tetherOptions = {
       target: this._targetNode,
       element: this._elementParentNode,
-      ...options
+      ...options,
+      constraints: [
+        {
+          to: 'scrollParent',
+          pin: true
+        }
+      ]
     }
 
     if (!this._tether) {
